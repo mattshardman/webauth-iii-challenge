@@ -8,6 +8,9 @@ exports.up = (knex, Promise) => {
 		tbl
 			.string("hash", 255)
 			.notNullable();
+		tbl
+			.string("department", 255)
+			.notNullable();
 	});
 };
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const dotEnv = require("dotEnv");
-
+const cors = require("cors");
 const verifyJWT = require("./api/auth-middleware");
 const authRoutes = require("./api/auth/routes");
 const userRoutes = require("./api/users/routes");
@@ -8,7 +8,7 @@ const userRoutes = require("./api/users/routes");
 const app = express();
 
 dotEnv.config();
-
+app.use(cors());
 app.use(express.json());
 
 app.use(verifyJWT);
