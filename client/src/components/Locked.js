@@ -3,9 +3,12 @@ import axios from 'axios';
 
 function Locked() {
     useEffect(() => {
-        console.log(localStorage.getItem('token'))
+        const token = localStorage.getItem('token');
+        axios.get("http://localhost:5000/api/restricted/users", { headers: { Authorization: `Bearer: ${token}`} })
+            .then(r => console.log(r.data))
+            .catch(e => console.log(e))
     }, []);
-    
+
     return (
         <div>
             hi
