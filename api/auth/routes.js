@@ -1,25 +1,11 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const { hashSync } = require("bcryptjs");
+
+const { makeTokenFromUser } = require("./utils");
 
 const Users = require("../../data/helpers/userModel");
 
 const routes = express.Router();
-
-function makeTokenFromUser(user) {
-	const payload = {
-		subject: user.id,
-		username: user.name
-	};
-
-	const options = {
-		expiresIn: "1h"
-	};
-
-	const token = jwt.sign(payload, "secretty thing", options);
-
-	return token;
-}
 
 routes.post("/api/auth/register", async (req, res) => {
 	const { user, password } = req.body;
