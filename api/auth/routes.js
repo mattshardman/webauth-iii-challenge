@@ -1,5 +1,5 @@
 const express = require("express");
-const { hashSync } = require("bcryptjs");
+const { hashSync, compareSync } = require("bcryptjs");
 
 const { makeTokenFromUser } = require("./utils");
 
@@ -19,8 +19,15 @@ routes.post("/api/auth/register", async (req, res) => {
 	}
 });
 
-// routes.post("api/auth/login", async (req, res) => {
-// 	const { user, password } = req.body;
-// });
+routes.post("/api/auth/login", async (req, res) => {
+	const { user, password } = req.body;
+	const u = await Users.getUser(user);
+	const match = compareSync(password, u.hash);
+	if (match) {
+		const token = makeTokenFromUser(u);
+		return res.status(200).json(token);
+	}
+	return res.status(400).json({ message: "Could not authorise user "});
+});
 
 module.exports = routes;
