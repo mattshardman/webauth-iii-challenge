@@ -6,4 +6,9 @@ const addUser = async user => {
 	return newUser[0];
 };
 
-module.exports = { addUser };
+const getUsers = async () => {
+	const users = await db("users");
+	return users;
+};
+
+module.exports = { addUser, getUsers };
