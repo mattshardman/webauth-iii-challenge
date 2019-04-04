@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 const Container = styled.div`
   height: 100vh;
@@ -13,7 +12,6 @@ const Container = styled.div`
 `;
 
 const Form = styled.form`
-  position: relative;
   box-sizing: border-box;
   width: 400px;
   height: 400px;
@@ -23,7 +21,6 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 `;
 
 const Input = styled.input`
@@ -51,7 +48,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const SignUpButton = styled.div`
+const SignInButton = styled.div`
   width: 80%;
   height: 40px;
   margin: 10px 0;
@@ -59,22 +56,20 @@ const SignUpButton = styled.div`
   justify-content: center;
 `;
 
-function Login(props) {
+function SignUp(props) {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [department, setDepartment] = useState("");
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setLoading(true);
     try {
-      const result = await axios.post("http://localhost:5000/api/auth/login", {
-        user,
-        password
-      });
+      const result = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        { user, password, department }
+      );
       localStorage.setItem("token", result.data);
-      setUser("");
-      setPassword("");
       props.history.replace("/users");
     } catch (e) {
       console.log(e);
@@ -84,32 +79,42 @@ function Login(props) {
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        <div style={{ width: "100%", position: "absolute", top: 0 }}>
-          {loading && <LinearProgress style={{ flexGrow: 1 }} />}
-        </div>
-        <h2>Log In</h2>
         <Input
           type="text"
           placeholder="Username"
+          value={user}
           onChange={e => setUser(e.target.value)}
         />
         <Input
           type="password"
           placeholder="Password"
+          value={password}
           onChange={e => setPassword(e.target.value)}
         />
-        <Button type="submit">Login</Button>
-        <SignUpButton>
+        <Input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChange={e => setConfirmPassword(e.target.value)}
+        />
+        <Input
+          type="department"
+          placeholder="Department"
+          value={department}
+          onChange={e => setDepartment(e.target.value)}
+        />
+        <Button type="submit">Create Account</Button>
+        <SignInButton>
           <Link
-            to="/signup"
+            to="/login"
             style={{ textDecoration: "none", color: "#484848" }}
           >
-            Create Account
+            Log In
           </Link>
-        </SignUpButton>
+        </SignInButton>
       </Form>
     </Container>
   );
 }
 
-export default Login;
+export default SignUp;
