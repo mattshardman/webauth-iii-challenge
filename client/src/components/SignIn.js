@@ -12,7 +12,7 @@ const Input = styled.input`
   height: 40px;
 `;
 
-function Login(props) {
+function SignIn(props) {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
@@ -39,4 +39,4 @@ function Login(props) {
   );
 }
 
-export default Login;
+export default SignIn;

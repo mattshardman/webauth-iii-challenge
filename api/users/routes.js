@@ -5,8 +5,15 @@ const routes = express.Router();
 
 
 routes.get("/api/restricted/users", async (req, res) => {
-	const users = await Users.getUsers();
-	res.status(200).send(users);
+	try {
+		const users = await Users.getUsers();
+		console.log(users);
+		res.status(200).json(users);
+	} catch (e) {
+		console.log(e);
+		// res.status(400).json(e);
+	}
+	
 });
 
 module.exports = routes;

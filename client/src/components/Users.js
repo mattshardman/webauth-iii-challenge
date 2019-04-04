@@ -1,19 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function Locked() {
+function Users() {
+    const [users, setUsers] = useState([]);
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         axios.get("http://localhost:5000/api/restricted/users", { headers: { Authorization: `Bearer: ${token}`} })
-            .then(r => console.log(r.data))
+            .then(r => setUsers(r.data))
             .catch(e => console.log(e))
     }, []);
 
     return (
         <div>
-            hi
+           Users: { users.map(each => <p>{each.user}</p>)}
         </div>
     );
 }
 
-export default Locked;
+export default Users;
